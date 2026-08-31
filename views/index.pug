@@ -1,59 +1,78 @@
 extends layout
 block content
-  .hero-banner.mb-4
-    img(src='/home.jpg' alt='Oyera Auto Bay home dashboard image')
+  //- BACKGROUND WRAPPER FOR WHOLE PAGE
+  div(style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('/home.jpg'); background-size: cover; background-position: center; background-attachment: fixed; width: 100vw; margin-left: calc(50% - 50vw); margin-top: -24px; margin-bottom: -24px; min-height: 100vh;")
 
-  .row.g-4.mb-4
-    .col-md-4
-      .stat-card
-        .label Total Customers
-        .value= totalCustomers
-        .meta Active vehicle owners
-    .col-md-4
-      .stat-card.primary
-        .label Service Jobs
-        .value= totalServices
-        .meta Completed & active bookings
-    .col-md-4
-      .stat-card
-        .label Stock Items
-        .value= totalStock
-        .meta Parts and consumables
+    //- HERO
+    .container.text-center.text-white(style="padding: 100px 20px 60px;")
+      h1.display-3.fw-bold Welcome to Oyera Auto Bay
+      p.lead.fs-4.mt-3 Your trusted partner for complete car care in Kampala
+      .mt-4.d-flex.gap-3.justify-content-center.flex-wrap
+        a.btn.btn-warning.btn-lg.px-5.fw-bold(href="/booking") Book Service Now
+        a.btn.btn-outline-light.btn-lg.px-4(href="https://wa.me/256772000000") WhatsApp Us
 
-  .row.g-4
-    .col-lg-8
-      .card.shadow-sm.border-0
-        .card-body
-          h2.card-title.mb-3 Recent Service Activity
-          if recentServices && recentServices.length
-            .table-responsive
-              table.table.table-hover.align-middle
-                thead.table-success
-                  tr
-                    th Customer
-                    th Plate
-                    th Service
-                    th Technician
-                    th Status
-                tbody
-                  each service in recentServices
-                    tr
-                      td= service.customerName || '—'
-                      td= service.carPlate || '—'
-                      td= service.serviceType || '—'
-                      td= service.technician || 'Unassigned'
-                      td
-                        span.badge.rounded-pill(class=(service.status === 'completed' ? 'bg-success' : service.status === 'in_service' ? 'bg-warning text-dark' : 'bg-secondary'))= service.status || 'pending'
-          else
-            .alert.alert-info.mb-0 No recent service records.
-    .col-lg-4
-      .card.shadow-sm.border-0.h-100
-        .card-body
-          h3.card-title Why choose Oyera Auto Bay?
-          ul.list-group.list-group-flush
-            li.list-group-item Expert diagnostics
-            li.list-group-item Genuine parts and lubrication
-            li.list-group-item Fast turnaround time
-            li.list-group-item Friendly customer support
-          .mt-3
-            a.btn.btn-success.w-100(href='/book') Book a Service Now
+    //- HOW IT WORKS + WHY CHOOSE US
+    .container.my-4
+      .row.g-4
+        .col-md-6
+          .card.shadow-sm.border-0.h-100
+            .card-body
+              h4.fw-bold.mb-3 How It Works
+              .d-flex.mb-3
+                span.badge.bg-success.me-3 1
+                div
+                  strong Book Online
+                  p.small.text-muted.mb-0 Choose service & time
+              .d-flex.mb-3
+                span.badge.bg-success.me-3 2
+                div
+                  strong Drop Your Car
+                  p.small.text-muted.mb-0 Bring to our garage in Kampala
+              .d-flex.mb-3
+                span.badge.bg-success.me-3 3
+                div
+                  strong We Service
+                  p.small.text-muted.mb-0 Expert techs + genuine parts
+              .d-flex
+                span.badge.bg-success.me-3 4
+                div
+                  strong Pick Up
+                  p.small.text-muted.mb-0 Ready in 2-4 hours
+        .col-md-6
+          .card.shadow-sm.border-0.h-100
+            .card-body
+              h4.fw-bold Why Choose Oyera?
+              ul.list-group.list-group-flush
+                li.list-group-item ✅ Experienced technicians
+                li.list-group-item ✅ Genuine parts & oil
+                li.list-group-item ✅ Affordable - No hidden fees
+                li.list-group-item ✅ Fast turnaround 2-4 hrs
+                li.list-group-item ✅ Warranty on service
+              .mt-4
+                a.btn.btn-success.w-100.fw-bold(href="/booking") Book a Service Now
+
+    //- TESTIMONIAL CTA
+    .container.pb-3
+      .card.bg-warning.border-0.shadow.text-center.p-4
+        h5.fw-bold " car  fixed in 2 hours! Best garage in Kampala" .
+        p.small.mb-3 ⭐⭐⭐⭐⭐ 4.9/5 from 200+ customers
+        a.btn.btn-dark.px-5(href="/booking") Book Your service  Today
+
+    //- FOOTER
+    footer.text-white.mt-4(style="background: rgba(0,0,0,0.85); padding: 30px 20px;")
+      .container
+        .row.text-center.text-md-start
+          .col-md-4.mb-3
+            h5.fw-bold Oyera Auto Bay
+            p.small.text-white-50 Complete car care in Kampala
+          .col-md-4.mb-3
+            h6.fw-bold Quick Links
+            a.d-block.text-white-50.text-decoration-none.small(href="/booking") Book Service
+            a.d-block.text-white-50.text-decoration-none.small(href="/login") Login
+          .col-md-4.mb-3
+            h6.fw-bold Contact
+            p.small.mb-1 📍 Kampala, Uganda
+            p.small.mb-1 📞 0772 000 000 | WhatsApp
+            p.small ⏰ Mon - Sat 8am - 6pm
+        hr.border-secondary
+        p.small.text-center.text-white-50.mb-0 © 2026 Oyera Auto Bay
