@@ -1,0 +1,16 @@
+extends layout
+block content
+  h2 Service Receipt
+  if service
+    p Thank you #{service.customerName || ''}, here are your service details:
+    ul
+      li Strong Car Plate: #{service.carPlate}
+      li Service: #{service.serviceType}
+      li Labour Charge: #{service.labourCharge}
+      if service.notes
+        li Notes: #{service.notes}
+      if service.technician
+        li Technician: #{service.technician}
+      li Date: #{service.date && service.date.toLocaleString ? service.date.toLocaleString() : service.date}
+  else
+    p No service details available.

@@ -1,0 +1,45 @@
+extends layout
+block content
+  .row.g-4
+    .col-lg-5
+      .card.shadow-sm.border-0
+        .card-body
+          h2 Register New Customer
+          if error
+            .alert.alert-danger(role='alert')= error
+          form(action='/register-customer' method='POST')
+            .mb-3
+              label.form-label(for='fullName') Customer Full Name
+              input#fullName.form-control(type='text' name='fullName' required placeholder='e.g. James Kintu')
+            .mb-3
+              label.form-label(for='phone') Phone
+              input#phone.form-control(type='tel' name='phone' placeholder='0772 000 000')
+            .mb-3
+              label.form-label(for='carPlate') Car Plate Number
+              input#carPlate.form-control(type='text' name='carPlate' placeholder='UAX 123A' required)
+            .mb-3
+              label.form-label(for='carModel') Car Model
+              input#carModel.form-control(type='text' name='carModel' placeholder='Toyota Premio')
+            button.btn.btn-success.w-100(type='submit') Save Customer
+    .col-lg-7
+      .card.shadow-sm.border-0
+        .card-body
+          h2 Registered Customers
+          if customers && customers.length
+            .table-responsive
+              table.table.table-hover.align-middle
+                thead.table-success
+                  tr
+                    th Name
+                    th Phone
+                    th Car Plate
+                    th Car Model
+                tbody
+                  each customer in customers
+                    tr
+                      td= customer.fullName || '—'
+                      td= customer.phone || '—'
+                      td= customer.carPlate || '—'
+                      td= customer.carModel || '—'
+          else
+            .alert.alert-info.mb-0 No customers registered yet.

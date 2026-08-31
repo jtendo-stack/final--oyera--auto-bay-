@@ -1,0 +1,32 @@
+extends layout
+block content
+  h2 Customer Portal
+  p Enter your car plate or name to view your bookings.
+  form(action="/customer/portal" method="POST")
+    label Car Plate
+    input(type="text" name="carPlate" value=(carPlate || ''))
+    label Full Name
+    input(type="text" name="customerName" value=(customerName || ''))
+    button(type="submit") Search Bookings
+
+  if services && services.length
+    h3 Found #{services.length} booking(s)
+    table
+      tr
+        th Date
+        th Service
+        th Car Plate
+        th Technician
+        th Status
+        th Receipt
+      each s in services
+        - var _date = s && s.date ? new Date(s.date) : null
+        tr
+          td= _date ? _date.toLocaleString() : ''
+          td= s.serviceType || ''
+          td= s.carPlate || ''
+          td= s.technician || ''
+          td= s.status || 'pending'
+          td: a(href=`/receipt?serviceId=${s._id || ''}`) View Receipt
+  else if services
+    p No bookings found.

@@ -1,0 +1,62 @@
+extends layout
+block content
+  .row.g-4
+    .col-lg-7
+      .card.shadow-sm.border-0
+        .card-body
+          h2.mb-3 New Service Record
+          if error
+            .alert.alert-danger(role='alert')= error
+          form(action='/add-service' method='POST')
+            .row.g-3
+              .col-md-6
+                label.form-label(for='customerName') Customer Name
+                input#customerName.form-control(type='text' name='customerName' required placeholder='e.g. Moses Kato')
+              .col-md-6
+                label.form-label(for='phone') Phone Number
+                input#phone.form-control(type='tel' name='phone' placeholder='0772 000 000')
+              .col-md-6
+                label.form-label(for='carPlate') Car Plate
+                input#carPlate.form-control(type='text' name='carPlate' required placeholder='UBB 123A')
+              .col-md-6
+                label.form-label(for='serviceType') Service Type
+                select#serviceType.form-select(name='serviceType' required)
+                  option(value='') Select service
+                  option Engine Oil Change - 20,000 UGX
+                  option Brake Pads Change - 20,000 UGX
+                  option Brake Fluid Refill - 20,000 UGX
+                  option Gear Box Oil - 20,000 UGX
+                  option Wheel Alignment - 30,000 UGX
+                  option Wheel Balance - 20,000 UGX
+                  option Greasing - 20,000 UGX
+                  option Other Minor Repair - 20,000 UGX
+              .col-md-6
+                label.form-label(for='technician') Assigned Technician
+                select#technician.form-select(name='technician')
+                  option(value='') Unassigned
+                  each tech in technicians
+                    option(value=tech.name)= tech.name
+              .col-md-6
+                label.form-label(for='status') Status
+                select#status.form-select(name='status')
+                  option(value='pending' selected) Pending
+                  option(value='in_service') In Service
+                  option(value='completed') Completed
+                  option(value='parts_required') Parts Required
+              .col-12
+                label.form-label(for='notes') Service Notes
+                textarea#notes.form-control(name='notes' rows='4' placeholder='Describe the issue, parts needed, or customer request')
+            .d-grid.gap-2.mt-4
+              button.btn.btn-success.btn-lg(type='submit') Save Service
+    .col-lg-5
+      .card.shadow-sm.border-0.h-100
+        .card-body
+          h3.card-title Quick Info
+          ul.list-group.list-group-flush
+            li.list-group-item Service bay average turnaround: 2-4 hours
+            li.list-group-item Most common jobs: oil change, brake checks, alignment
+            li.list-group-item Customer follow-up reminders sent automatically
+            li.list-group-item Stock alert system helps prevent shortages
+          .mt-4
+            .alert.alert-success.mb-0
+              strong Tip:</strong> Always assign a technician and confirm the vehicle plate before closing the record.

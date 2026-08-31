@@ -1,0 +1,23 @@
+extends layout
+block content
+  .login-shell
+    .login-card
+      .login-brand
+        img(src='/logo.svg' alt='Oyera Auto Bay logo')
+      .login-header
+        span.login-badge Staff Access
+        h2 Welcome back
+      p.login-subtitle Please sign in with your staff details to continue.
+      form(action='/login' method='POST')
+        .mb-3
+          label.form-label(for='name') Full Name
+          input#name.form-control(type='text' name='name' placeholder='Enter your full name' required)
+        .mb-3
+          label.form-label(for='email') Email Address
+          input#email.form-control(type='email' name='email' placeholder='you@example.com' required)
+        .mb-3
+          label.form-label(for='role') Role
+          select#role.form-select(name='role')
+            option(value='technician') Technician
+            option(value='senior') Senior Technician
+        button.btn.btn-success.w-100(type='submit') Login to Dashboard

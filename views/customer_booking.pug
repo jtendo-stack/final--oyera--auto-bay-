@@ -1,0 +1,69 @@
+extends layout
+block content
+  if showSuccess
+    .modal.fade#customerSuccessModal(tabindex='-1' aria-labelledby='customerSuccessModalLabel' aria-hidden='true')
+      .modal-dialog.modal-dialog-centered
+        .modal-content.border-0.shadow
+          .modal-header.border-0.bg-success.text-white
+            h5.modal-title#customerSuccessModalLabel Thank you
+            button.btn-close.btn-close-white(type='button' data-bs-dismiss='modal' aria-label='Close')
+          .modal-body.text-center.py-4
+            .mb-3
+              i.bi.bi-check-circle-fill.fs-1.text-success
+            h4.fw-bold.mb-2 Thank you for trusting us
+            p.mb-0 We are happy to serve you at Oyera Auto Bay.
+    script.
+      document.addEventListener('DOMContentLoaded', function () {
+        const modalEl = document.getElementById('customerSuccessModal');
+        if (modalEl) {
+          const modal = new bootstrap.Modal(modalEl);
+          modal.show();
+        }
+      });
+
+  .row.justify-content-center
+    .col-lg-8
+      .card.shadow-sm.border-0
+        .card-body
+          h2.mb-3 Book a Service
+          if error
+            .alert.alert-danger(role='alert')= error
+          form(action='/book' method='POST')
+            .row.g-3
+              .col-md-6
+                label.form-label(for='customerName') Full Name
+                input#customerName.form-control(type='text' name='customerName' required value=(prefill && prefill.customerName) placeholder='e.g. Esther Nakato')
+              .col-md-6
+                label.form-label(for='phone') Phone
+                input#phone.form-control(type='tel' name='phone' value=(prefill && prefill.phone) placeholder='0772 000 000')
+              .col-md-6
+                label.form-label(for='email') Email (optional)
+                input#email.form-control(type='email' name='email' value=(prefill && prefill.email) placeholder='you@example.com')
+              .col-md-6
+                label.form-label(for='carPlate') Car Plate
+                input#carPlate.form-control(type='text' name='carPlate' required value=(prefill && prefill.carPlate) placeholder='UBB 123A')
+              .col-md-6
+                label.form-label(for='carModel') Car Model
+                input#carModel.form-control(type='text' name='carModel' value=(prefill && prefill.carModel) placeholder='Toyota Rav4')
+              .col-md-6
+                label.form-label(for='serviceType') Service Type
+                select#serviceType.form-select(name='serviceType' required)
+                  option(value='') Select service
+                  option Engine Oil Change - 20,000 UGX
+                  option Brake Pads Change - 20,000 UGX
+                  option Brake Fluid Refill - 20,000 UGX
+                  option Gear Box Oil - 20,000 UGX
+                  option Wheel Alignment - 30,000 UGX
+                  option Wheel Balance - 20,000 UGX
+                  option Greasing - 20,000 UGX
+                  option Other Minor Repair - 20,000 UGX
+              .col-md-6
+                label.form-label(for='technician') Technician (optional)
+                select#technician.form-select(name='technician')
+                  option(value='') -- Any --
+                  each tech in technicians
+                    option(value=tech.name)= tech.name
+              .col-12
+                label.form-label(for='notes') Notes / Parts Used
+                textarea#notes.form-control(name='notes' rows='4' placeholder='e.g: 4L Engine Oil, 1 Oil Filter')
+            button.btn.btn-success.btn-lg.w-100.mt-4(type='submit') Book & Get Receipt

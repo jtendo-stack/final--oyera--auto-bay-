@@ -1,0 +1,21 @@
+extends layout
+block content
+  .row.justify-content-center
+    .col-lg-6
+      .card.shadow-sm.border-0
+        .card-body
+          h2.mb-3 Customer Registration
+          form(action='/register' method='POST')
+            .mb-3
+              label.form-label(for='fullName') Full Name
+              input#fullName.form-control(type='text' name='fullName' required placeholder='e.g. Esther Nakato')
+            .mb-3
+              label.form-label(for='phone') Phone
+              input#phone.form-control(type='tel' name='phone' placeholder='0772 000 000')
+            .mb-3
+              label.form-label(for='carPlate') Car Plate Number
+              input#carPlate.form-control(type='text' name='carPlate' required placeholder='UAX 123A')
+            .mb-3
+              label.form-label(for='carModel') Car Model
+              input#carModel.form-control(type='text' name='carModel' placeholder='Toyota Prius')
+            button.btn.btn-success.w-100(type='submit') Register & Book

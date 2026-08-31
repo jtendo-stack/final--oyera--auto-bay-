@@ -1,0 +1,58 @@
+extends layout
+block content
+  .row.g-4.mb-4
+    .col-md-4
+      .stat-card
+        .label Total Labour
+        .value= `UGX ${(Number(totalLabour) || 0).toLocaleString()}`
+        .meta Revenue estimate
+    .col-md-4
+      .stat-card.primary
+        .label Completed
+        .value= completedCount
+        .meta Closed jobs
+    .col-md-4
+      .stat-card
+        .label Pending
+        .value= pendingCount
+        .meta Awaiting service
+
+  .card.shadow-sm.border-0
+    .card-body
+      h2.card-title.mb-3 All Service Records
+      if services && services.length
+        .table-responsive
+          table.table.table-hover.align-middle
+            thead.table-success
+              tr
+                th Date
+                th Customer
+                th Car Plate
+                th Service
+                th Technician
+                th Labour
+                th Status
+                th Actions
+            tbody
+              each service, idx in services
+                - var _date = service && service.date ? new Date(service.date) : null
+                - var _labour = Number(service && service.labourCharge) || 0
+                - var sid = service && service._id ? service._id : idx
+                tr
+                  td= _date ? _date.toLocaleDateString() : ''
+                  td= service && service.customerName ? service.customerName : ''
+                  td= service && service.carPlate ? service.carPlate : ''
+                  td= service && service.serviceType ? service.serviceType : ''
+                  td= service && service.technician ? service.technician : 'Unassigned'
+                  td= _labour ? `UGX ${_labour.toLocaleString()}` : 'UGX 0'
+                  td
+                    span.badge.rounded-pill(class=(service && service.status === 'completed' ? 'bg-success' : service && service.status === 'in_service' ? 'bg-warning text-dark' : 'bg-secondary'))= service && service.status ? service.status : 'pending'
+                  td
+                    if userRole && (userRole === 'senior' || userRole === 'admin')
+                      a.btn.btn-sm.btn-outline-success(href=`/service/${sid}/parts`) Assign Parts
+                    else if userRole && userRole === 'technician'
+                      if service && service.status === 'parts_required'
+                        form(action=`/service/${sid}/parts/purchased` method='POST')
+                          button.btn.btn-sm.btn-success(type='submit') Mark Purchased
+      else
+        .alert.alert-info.mb-0 No records found.

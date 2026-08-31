@@ -1,0 +1,59 @@
+extends layout
+block content
+  .hero-banner.mb-4
+    img(src='/home.jpg' alt='Oyera Auto Bay home dashboard image')
+
+  .row.g-4.mb-4
+    .col-md-4
+      .stat-card
+        .label Total Customers
+        .value= totalCustomers
+        .meta Active vehicle owners
+    .col-md-4
+      .stat-card.primary
+        .label Service Jobs
+        .value= totalServices
+        .meta Completed & active bookings
+    .col-md-4
+      .stat-card
+        .label Stock Items
+        .value= totalStock
+        .meta Parts and consumables
+
+  .row.g-4
+    .col-lg-8
+      .card.shadow-sm.border-0
+        .card-body
+          h2.card-title.mb-3 Recent Service Activity
+          if recentServices && recentServices.length
+            .table-responsive
+              table.table.table-hover.align-middle
+                thead.table-success
+                  tr
+                    th Customer
+                    th Plate
+                    th Service
+                    th Technician
+                    th Status
+                tbody
+                  each service in recentServices
+                    tr
+                      td= service.customerName || '—'
+                      td= service.carPlate || '—'
+                      td= service.serviceType || '—'
+                      td= service.technician || 'Unassigned'
+                      td
+                        span.badge.rounded-pill(class=(service.status === 'completed' ? 'bg-success' : service.status === 'in_service' ? 'bg-warning text-dark' : 'bg-secondary'))= service.status || 'pending'
+          else
+            .alert.alert-info.mb-0 No recent service records.
+    .col-lg-4
+      .card.shadow-sm.border-0.h-100
+        .card-body
+          h3.card-title Why choose Oyera Auto Bay?
+          ul.list-group.list-group-flush
+            li.list-group-item Expert diagnostics
+            li.list-group-item Genuine parts and lubrication
+            li.list-group-item Fast turnaround time
+            li.list-group-item Friendly customer support
+          .mt-3
+            a.btn.btn-success.w-100(href='/book') Book a Service Now

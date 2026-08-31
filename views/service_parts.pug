@@ -1,0 +1,19 @@
+extends layout
+block content
+  if service
+    h2 Assign Parts for Service
+    p Customer: #{service.customerName}
+    p Car Plate: #{service.carPlate}
+    form(action=`/service/${service._id || ''}/parts` method="POST")
+      label Parts (format: Name:Qty,Name2:Qty2)
+      input(type="text" name="parts" placeholder="Oil:1,Oil Filter:1")
+      button(type="submit") Save Parts
+    if service.partsNeeded && service.partsNeeded.length
+      h3 Current Parts
+      ul
+        each p in service.partsNeeded
+          li #{p.name} x #{p.qty}
+      form(action=`/service/${service._id || ''}/parts/purchased` method="POST")
+        button(type="submit") Mark Parts Purchased & Start Service
+  else
+    p Service not found.

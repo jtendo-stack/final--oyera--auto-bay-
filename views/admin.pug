@@ -1,0 +1,122 @@
+extends layout
+block content
+  .admin-hero.mb-4
+    img(src='/admin.jpg' alt='Oyera Auto Bay senior dashboard image')
+
+  .alert.alert-primary(role='alert')
+    strong Management view:</strong> Kisakye Jonathan (Senior Technician)
+
+  .row.g-4.mb-4
+    .col-md-4
+      .stat-card
+        .label Customers
+        .value= totalCustomers
+        .meta Registered vehicle owners
+    .col-md-4
+      .stat-card.primary
+        .label Services
+        .value= totalServices
+        .meta Total job history
+    .col-md-4
+      .stat-card
+        .label Stock
+        .value= totalStock
+        .meta Item count in inventory
+
+  .row.g-4.mb-4
+    .col-lg-8
+      .card.shadow-sm.border-0
+        .card-body
+          h2.card-title.mb-3 Bookings Overview
+          if recentServices && recentServices.length
+            .table-responsive
+              table.table.table-hover.align-middle
+                thead.table-success
+                  tr
+                    th Customer
+                    th Plate
+                    th Service
+                    th Technician
+                    th Status
+                tbody
+                  each item in recentServices
+                    tr
+                      td= item.customerName || '—'
+                      td= item.carPlate || '—'
+                      td= item.serviceType || '—'
+                      td= item.technician || 'Unassigned'
+                      td
+                        span.badge.rounded-pill(class=(item.status === 'completed' ? 'bg-success' : item.status === 'in_service' ? 'bg-warning text-dark' : 'bg-secondary'))= item.status || 'pending'
+          else
+            .alert.alert-info.mb-0 No service jobs yet.
+    .col-lg-4
+      .card.shadow-sm.border-0.h-100
+        .card-body
+          h3.card-title Quick Actions
+          .d-grid.gap-2.mt-3
+            a.btn.btn-success(href='/customers') View Customers
+            a.btn.btn-success(href='/stock') Manage Stock
+            a.btn.btn-success(href='/records') View Records
+            a.btn.btn-success(href='/technicians') Add Technicians
+            a.btn.btn-outline-success(href='/') Home
+
+  .row.g-4
+    .col-lg-6
+      .card.shadow-sm.border-0
+        .card-body
+          h3.card-title Parts & Stock
+          if stock && stock.length
+            .table-responsive
+              table.table.table-sm
+                thead.table-light
+                  tr
+                    th Item
+                    th Qty
+                    th Price
+                tbody
+                  each item in stock
+                    tr
+                      td= item.itemName || '—'
+                      td= item.quantity || 0
+                      td= Number(item.price || 0).toLocaleString()
+          else
+            .alert.alert-info.mb-0 No stock items yet.
+    .col-lg-6
+      .card.shadow-sm.border-0
+        .card-body
+          h3.card-title Team
+          if technicians && technicians.length
+            .list-group.list-group-flush
+              each tech in technicians
+                .list-group-item.d-flex.justify-content-between.align-items-center
+                  span= tech.name || '—'
+                  span.badge.rounded-pill.bg-success= tech.role || 'technician'
+          else
+            .alert.alert-info.mb-0 No technicians added yet.
+
+  .row.g-4.mt-1
+    .col-12
+      .card.shadow-sm.border-0
+        .card-body
+          h3.card-title Customers & Service Needs
+          if customers && customers.length
+            .table-responsive
+              table.table.table-hover.align-middle
+                thead.table-success
+                  tr
+                    th Customer
+                    th Phone
+                    th Car Plate
+                    th Car Model
+                    th Need
+                tbody
+                  each customer in customers
+                    - var matching = recentServices && recentServices.find(s => s.carPlate === customer.carPlate)
+                    tr
+                      td= customer.fullName || '—'
+                      td= customer.phone || '—'
+                      td= customer.carPlate || '—'
+                      td= customer.carModel || '—'
+                      td= matching && matching.serviceType ? matching.serviceType : 'Awaiting service'
+          else
+            .alert.alert-info.mb-0 No registered customers yet.

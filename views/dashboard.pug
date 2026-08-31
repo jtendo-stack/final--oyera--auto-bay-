@@ -1,0 +1,52 @@
+extends layout
+block content
+  if technicianName
+    .alert.alert-success(role='alert')
+      strong Technician view:</strong> #{technicianName}
+
+  .row.g-4.mb-4
+    .col-md-4
+      .stat-card
+        .label Total Bookings
+        .value= totalBookings
+        .meta Assigned workload
+    .col-md-4
+      .stat-card.primary
+        .label Today
+        .value= todayCount
+        .meta New bookings today
+    .col-md-4
+      .stat-card
+        .label Pending
+        .value= pendingCount
+        .meta Jobs awaiting action
+
+  .card.shadow-sm.border-0
+    .card-body
+      h2.card-title.mb-3 Customer Jobs to Work On
+      if recentServices && recentServices.length
+        .table-responsive
+          table.table.table-hover.align-middle
+            thead.table-success
+              tr
+                th Date
+                th Customer
+                th Phone
+                th Car Plate
+                th Service
+                th Technician
+                th Status
+            tbody
+              each s in recentServices
+                - var _date = s && s.date ? new Date(s.date) : null
+                tr
+                  td= _date ? _date.toLocaleString() : ''
+                  td= s.customerName || ''
+                  td= s.phone || '—'
+                  td= s.carPlate || ''
+                  td= s.serviceType || ''
+                  td= s.technician || 'Unassigned'
+                  td
+                    span.badge.rounded-pill(class=(s.status === 'completed' ? 'bg-success' : s.status === 'in_service' ? 'bg-warning text-dark' : 'bg-secondary'))= s.status || 'pending'
+      else
+        .alert.alert-info.mb-0 No bookings assigned to your work list yet.

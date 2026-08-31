@@ -1,0 +1,54 @@
+extends layout
+block content
+  .row.g-4
+    .col-lg-5
+      .card.shadow-sm.border-0
+        .card-body
+          h2 Add Technician
+          if error
+            .alert.alert-danger(role='alert')= error
+          form(action='/technicians/add-tech' method='POST')
+            .mb-3
+              label.form-label(for='name') Full Name
+              input#name.form-control(type='text' name='name' required placeholder='e.g. Juma Nsubuga')
+            .mb-3
+              label.form-label(for='email') Email
+              input#email.form-control(type='email' name='email' placeholder='name@example.com')
+            .mb-3
+              label.form-label(for='phone') Phone
+              input#phone.form-control(type='tel' name='phone' placeholder='0700 000 000')
+            .mb-3
+              label.form-label(for='skill') Skill / Specialty
+              input#skill.form-control(type='text' name='skill' placeholder='Engine, Brakes, Alignment')
+            .mb-3
+              label.form-label(for='role') Role
+              select#role.form-select(name='role')
+                option(value='technician' selected) Technician
+                option(value='senior') Senior Technician
+                option(value='admin') Admin
+            button.btn.btn-success.w-100(type='submit') Save Technician
+    .col-lg-7
+      .card.shadow-sm.border-0
+        .card-body
+          h2 Team
+          if technicians && technicians.length
+            .table-responsive
+              table.table.table-hover.align-middle
+                thead.table-success
+                  tr
+                    th Name
+                    th Skill
+                    th Phone
+                    th Email
+                    th Role
+                tbody
+                  each tech in technicians
+                    tr
+                      td= tech.name || '—'
+                      td= tech.skill || 'General'
+                      td= tech.phone || '—'
+                      td= tech.email || '—'
+                      td
+                        span.badge.rounded-pill.bg-primary= tech.role || 'technician'
+          else
+            .alert.alert-info.mb-0 No technicians added yet.

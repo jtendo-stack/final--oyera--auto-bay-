@@ -1,0 +1,18 @@
+extends layout
+block content
+  h2 Service Receipt
+  if service
+    - var _date = service && service.date ? new Date(service.date) : new Date()
+    p Receipt #: #{service._id || Date.now()}
+    p Date: #{_date.toLocaleString()}
+    p Customer: #{service.customerName || ''}
+    p Phone: #{service.phone || ''}
+    p Car Plate: #{service.carPlate || ''}
+    p Service: #{service.serviceType || ''}
+    p Technician: #{service.technician || 'Unassigned'}
+    p Notes: #{service.notes || 'N/A'}
+    p Labour Charge: UGX #{(Number(service.labourCharge) || 0).toLocaleString()}
+    p Thank you for booking with Oyera Auto Service Bay.
+    a(href="/") Back to Home
+  else
+    p No receipt available.
